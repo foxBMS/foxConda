@@ -1,0 +1,12 @@
+package:
+    name: bison
+    version: 3.0.4
+
+source:
+    fn:  bison-3.0.4.tar.xz # [linux]
+    url: http://ftp.gnu.org/gnu/bison/bison-3.0.4.tar.xz # [linux]
+
+
+about:
+    home: http://www.gnu.org/software/bison
+    license: GPL

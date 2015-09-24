@@ -1,0 +1,12 @@
+package:
+    name: m4
+    version: 1.4.17
+
+source:
+    fn: m4-1.4.17.tar.bz2 # [linux]
+    url: http://ftp.gnu.org/gnu/m4/m4-1.4.17.tar.bz2 # [linux]
+
+
+about:
+    home: http://www.gnu.org/software/m4/m4.html
+    license: GPL

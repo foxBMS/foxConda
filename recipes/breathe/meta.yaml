@@ -1,0 +1,35 @@
+
+package:
+    name: breathe
+    version: 4.0.0
+
+source:
+    fn: breathe-4.0.0.tar.gz
+    url: http://pappel.iisb.fraunhofer.de/foxbms/conda/src/breathe-4.0.0.tar.gz
+
+build:
+    number: 0
+
+requirements:
+    build:
+        - python
+        - docutils
+        - sphinx
+
+    run:
+        - python
+        - docutils
+        - sphinx
+        - doxygen
+
+test:
+    imports:
+        - breathe
+
+    #commands:
+    #    - make
+
+about:
+    home: http://michaeljones.github.io/breathe/
+    license: BSD
+

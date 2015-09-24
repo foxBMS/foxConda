@@ -1,0 +1,13 @@
+python
+conda-env
+openssl
+pycosat
+pyyaml
+readline
+requests
+sqlite
+tk
+yaml
+zlib
+conda
+pycrypto

@@ -1,0 +1,12 @@
+package:
+    name: flex
+    version: 2.5.39
+
+source:
+    fn: flex-2.5.39.tar.bz2 # [linux]
+    url: http://pappel.iisb.fraunhofer.de/foxbms/conda/src/flex-2.5.39.tar.bz2 # [linux]
+
+
+about:
+  home: http://flex.sourceforge.net/
+  license: BSD

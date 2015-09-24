@@ -1,0 +1,28 @@
+package:
+    name: doxygen
+    version: "1.8.10"
+
+source:
+    fn: doxygen-1.8.10.src.tar.gz # [osx]
+    fn: doxygen-1.8.10.src.tar.gz # [linux]
+    fn: doxygen-1.8.10.windows.x64.bin.zip   # [win]
+    url: http://pappel.iisb.fraunhofer.de/foxbms/conda/src/doxygen-1.8.10.src.tar.gz # [osx]
+    url: http://pappel.iisb.fraunhofer.de/foxbms/conda/src/doxygen-1.8.10.src.tar.gz # [linux]
+    url: http://ftp.stack.nl/pub/users/dimitri/doxygen-1.8.10.windows.x64.bin.zip # [win]
+
+
+requirements:
+    build:
+       - cmake
+       - bison # [linux]
+
+build:
+    number: 1
+
+# Note: tests are run when building the package, they are not accessible
+# in the installed package.
+
+about:
+    home: http://doxygen.org
+    license: "GPL"
+    summary: "Generate documentation from source code"

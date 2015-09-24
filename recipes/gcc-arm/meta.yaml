@@ -1,0 +1,27 @@
+#
+# file:        meta.yaml
+# date:        Mon Aug 17 16:04:15 CEST 2015
+# author:      Tim Fuehner <tim.fuehner@iisb.fraunhofer.de>
+#
+# Repackaging of gcc-arm
+# $Id$
+#
+
+package:
+  name: gcc-arm-none-eabi
+  version: 4.9.2015.q2.20150609
+
+source:
+  fn: gcc-arm-none-eabi-4_9-2015q2-20150609-win32.zip         # [win]
+  fn: gcc-arm-none-eabi-4_9-2015q2-20150609-linux.tar.bz2     # [linux]
+  fn: gcc-arm-none-eabi-4_9-2015q2-20150609-mac.tar.bz2       # [osx]
+  url: https://launchpad.net/gcc-arm-embedded/4.9/4.9-2015-q2-update/+download/gcc-arm-none-eabi-4_9-2015q2-20150609-win32.zip         # [win]
+  url: https://launchpad.net/gcc-arm-embedded/4.9/4.9-2015-q2-update/+download/gcc-arm-none-eabi-4_9-2015q2-20150609-linux.tar.bz2     # [linux]
+  url: https://launchpad.net/gcc-arm-embedded/4.9/4.9-2015-q2-update/+download/gcc-arm-none-eabi-4_9-2015q2-20150609-mac.tar.bz2       # [osx]
+  md5: 2e5812e1a7786adeb8461f17b2a6e6dc   # [win]
+  md5: 6d5e1ae27607bab87bd324c9be2df17a   # [linux]
+  md5: 34904f10367d622c139c782063212cd9   # [osx]
+
+about:
+  home:    https://launchpad.net/gcc-arm-embedded
+  license: GPL
