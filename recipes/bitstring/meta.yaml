@@ -1,0 +1,18 @@
+package:
+    name: bitstring
+    version: 3.1.4
+
+source:
+    git_tag: bitstring-3.1.4
+    git_url: https://github.com/scott-griffiths/bitstring
+
+build:
+    number: 0
+
+requirements:
+    build:
+        - python
+
+about:
+    home: http://scott-griffiths.github.io/bitstring/
+    license: MIT

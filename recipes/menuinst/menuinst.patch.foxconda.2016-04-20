@@ -1,0 +1,119 @@
+diff --git menuinst/__init__.py menuinst/__init__.py
+index dfe3b3a..cb0ed51 100644
+--- menuinst/__init__.py
++++ menuinst/__init__.py
+@@ -5,6 +5,7 @@
+ from __future__ import absolute_import
+ import sys
+ import json
++import logging
+ 
+ from ._version import get_versions
+ __version__ = get_versions()['version']
+@@ -37,6 +38,7 @@ def install(path, remove=False, root_prefix=None,
+ 
+     shortcuts = data['menu_items']
+     m = Menu(menu_name)
++    m.path = path
+     if remove:
+         for sc in shortcuts:
+             ShortCut(m, sc,
+diff --git menuinst/darwin.py menuinst/darwin.py
+index a85799c..c4528cb 100644
+--- menuinst/darwin.py
++++ menuinst/darwin.py
+@@ -5,10 +5,11 @@
+ import os
+ import sys
+ import shutil
++import os.path
+ from os.path import basename, join
+ from plistlib import Plist, writePlist
+ 
+-from utils import rm_rf
++from utils import rm_rf, is_root, is_homesubdir
+ 
+ 
+ class Menu(object):
+@@ -22,18 +23,26 @@ class Menu(object):
+ 
+ class ShortCut(object):
+ 
+-    def __init__(self, menu, shortcut, prefix=sys.prefix):
++    def __init__(self, menu, shortcut, target_prefix=sys.prefix, env_name=None,
++            env_setup_cmd=None):
+         self.shortcut = shortcut
+-        self.prefix = prefix
++        self.prefix = target_prefix
+         self.name = shortcut['name']
+-        self.path = '/Applications/%s.app' % self.name
++        if is_root() and is_homesubdir(self.prefix):
++            self.path = '/Applications/%s.app' % self.name
++        else:
++            self.path = os.path.expanduser('~/Applications/%s.app' % self.name)
+         self.shortcut = shortcut
++        self.env_setup_cmd = env_setup_cmd
++        self.env_name = env_name
++        self.sourcepath = os.path.dirname(menu.path)
+ 
+     def remove(self):
+         rm_rf(self.path)
+ 
+     def create(self):
+-        Application(self.path, self.shortcut, self.prefix).create()
++        Application(self.path, self.shortcut, self.prefix, self.env_name,
++                self.env_setup_cmd, self.sourcepath).create()
+ 
+ 
+ class Application(object):
+@@ -42,7 +51,8 @@ class Application(object):
+     be standalone executable, but more likely a Python script which is
+     interpreted by the framework Python interpreter.
+     """
+-    def __init__(self, app_path, shortcut, prefix, env_name, env_setup_cmd):
++    def __init__(self, app_path, shortcut, prefix, env_name, env_setup_cmd,
++            sourcepath = None):
+         """
+         Required:
+         ---------
+@@ -56,6 +66,7 @@ class Application(object):
+         self.icns = shortcut['icns']
+         self.env_name = env_name
+         self.env_setup_cmd = env_setup_cmd
++        self.sourcepath = sourcepath
+ 
+ 
+         for a, b in [
+@@ -75,7 +86,8 @@ class Application(object):
+     def create(self):
+         self._create_dirs()
+         self._write_pkginfo()
+-        shutil.copy(self.icns, self.resources_dir)
++        _icns = os.path.join(self.sourcepath, os.path.basename(self.icns))
++        shutil.copy(_icns, self.resources_dir)
+         self._writePlistInfo()
+         self._write_script()
+ 
+diff --git menuinst/utils.py menuinst/utils.py
+index 7e09a64..fdb899c 100644
+--- menuinst/utils.py
++++ menuinst/utils.py
+@@ -1,7 +1,18 @@
+ import os
+ import shutil
+ from os.path import isdir, isfile, islink
++import sys
+ 
++def is_homesubdir(path):
++    _home = os.path.expanduser('~')
++    _path = os.path.abspath(path)
++    return _path.startswith(_home)
++
++def is_root():
++    if sys.platform.startswith('win'):
++        return False
++    else:
++        return (os.getgid() == 0)
+ 
+ 
+ def rm_empty_dir(path):

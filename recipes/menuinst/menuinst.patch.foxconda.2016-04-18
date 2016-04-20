@@ -1,0 +1,70 @@
+diff --git menuinst/darwin.py menuinst/darwin.py
+index a85799c..ef3f957 100644
+--- menuinst/darwin.py
++++ menuinst/darwin.py
+@@ -5,10 +5,11 @@
+ import os
+ import sys
+ import shutil
++import os.path
+ from os.path import basename, join
+ from plistlib import Plist, writePlist
+ 
+-from utils import rm_rf
++from utils import rm_rf, is_root, is_homesubdir
+ 
+ 
+ class Menu(object):
+@@ -22,18 +23,25 @@ class Menu(object):
+ 
+ class ShortCut(object):
+ 
+-    def __init__(self, menu, shortcut, prefix=sys.prefix):
++    def __init__(self, menu, shortcut, target_prefix=sys.prefix, env_name=None,
++            env_setup_cmd=None):
+         self.shortcut = shortcut
+-        self.prefix = prefix
++        self.prefix = target_prefix
+         self.name = shortcut['name']
+-        self.path = '/Applications/%s.app' % self.name
++        if is_root() and is_homesubdir(self.prefix):
++            self.path = '/Applications/%s.app' % self.name
++        else:
++            self.path = os.path.expanduser('~/Applications/%s.app' % self.name)
+         self.shortcut = shortcut
++        self.env_setup_cmd = env_setup_cmd
++        self.env_name = env_name
+ 
+     def remove(self):
+         rm_rf(self.path)
+ 
+     def create(self):
+-        Application(self.path, self.shortcut, self.prefix).create()
++        Application(self.path, self.shortcut, self.prefix, self.env_name,
++                self.env_setup_cmd).create()
+ 
+ 
+ class Application(object):
+diff --git menuinst/utils.py menuinst/utils.py
+index 7e09a64..fdb899c 100644
+--- menuinst/utils.py
++++ menuinst/utils.py
+@@ -1,7 +1,18 @@
+ import os
+ import shutil
+ from os.path import isdir, isfile, islink
++import sys
+ 
++def is_homesubdir(path):
++    _home = os.path.expanduser('~')
++    _path = os.path.abspath(path)
++    return _path.startswith(_home)
++
++def is_root():
++    if sys.platform.startswith('win'):
++        return False
++    else:
++        return (os.getgid() == 0)
+ 
+ 
+ def rm_empty_dir(path):
