@@ -1,0 +1,30 @@
+package:
+    name: foxbmsflashtool
+    version: "0.1"
+
+source:
+    git_url: sourcegate:/home/data/gitroot/foxbms/foxbms-flashtool.git
+
+build:
+    number: 1
+    osx_is_app: True
+    entry_points:
+        - inari = foxbmsflashtool.inari:main
+        - fbflasher = foxbmsflashtool.loader:main
+
+requirements:
+    build:
+        - python
+        - setuptools
+    run:
+        - python
+        - wxpython
+        - pyserial 3.0.1
+        - bitstring
+
+about:
+    home: http://www.foxbms.org
+    license: BSD
+    license_file: LICENSE
+    summary: foxBMS flash tools, including a command line and a GUI tool
+

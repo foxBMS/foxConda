@@ -1,0 +1,21 @@
+{
+    "menu_name": "World",
+    "menu_items":
+        [
+            {
+                "cmd": ["/usr/bin/helloworld", "arg1", "..", "argn"],
+                // The following options can be applied to any shortcut type:
+                "id": "id1",  // For shortcut file name, becomes "World_id1"
+                "name": "Hello World",
+                "comment": "Hello World application",
+                "terminal": true,
+                "icon": "path/to/icon"
+            },
+            {
+                "cmd": ["{{FILEBROWSER}}", "~/HelloWorld.txt"]
+            },
+            {
+                "cmd": ["{{WEBBROWSER}}", "https://hello.com"]
+            }
+        ]
+}

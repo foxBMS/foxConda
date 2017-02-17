@@ -1,0 +1,54 @@
+icon: 
+    linux: app.svg
+    osx: app.icns
+    win: app.ico
+
+msexeversioninfo: windowsexedetails.txt
+
+image: installer.png
+
+installdir: foxconda
+
+launch: 
+    check: 'Launch foxBMS FrontDesk?'
+    cmd: foxbms
+
+license:
+  agree: true
+  files: 
+      - LICENSE
+      - anaconda.LICENSE
+  summary: 3-clause BSD
+  target: .
+
+name: foxcondainstall
+numberpackage: 37
+
+payload:
+  file: payload.tar
+  postpackages: 
+      - foxbmsflashtool
+      - foxbms
+  primepackages: 
+      - python
+      - conda
+      - menuinst
+
+postinstall:
+  scripts: 
+      - postinstall.py
+
+success: foxConda successfully installed
+title: foxConda Installer
+welcome: 
+    html: <h1>Welcome to foxConda, the foxBMS Python distribution.</h1>
+        <br /> &copy; 2011&ndash;2016 Fraunhofer IISB.<br /> All rights reserved. 
+        <br /> <br /> <br /> <br /> for more information, visit <a href="http://www.foxbms.org">foxBMS.org</a>
+        <br /> <br /> <br /> <br /> foxConda is based on <a href="https://anaconda.org">Anaconda</a> by Continuum Analytics.
+    text: Welcome to foxConda, the foxBMS Python distribution.
+
+        (c) 2011-2016 Fraunhofer IISB. All rights reserved.
+
+        for more information visit foxbms.org
+
+        foxConda is based on Anaconda by Continuum Analytics (https://anaconda.org).

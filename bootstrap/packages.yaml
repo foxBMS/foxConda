@@ -1,0 +1,33 @@
+installpackages:
+    - conda-build
+    - alabaster
+    - appdirs
+    - sphinx
+    - sphinx_rtd_theme
+    - numpy
+    - paramiko
+    - pycrypto
+    - cmake
+    - git
+    - wxpython
+    - pyinstaller
+
+buildpackages:
+    - bitstring
+    - m4
+    - bison
+    - flex
+    - doxygen
+    - breathe
+    - menuinst
+    - pyserial
+    - gcc-arm-none-eabi
+    - foxbmsflashtool
+    - foxbms
+    - foxconda-installer
+
+channels:
+    pyinstaller: conda-forge
+
+upload:
+    repo: ssh://pappel.iisb.fraunhofer.de/foxbms/conda/channel

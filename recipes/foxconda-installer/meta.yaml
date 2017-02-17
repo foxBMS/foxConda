@@ -1,0 +1,37 @@
+#
+# file:        meta.yaml
+# date:        Wed Apr 20 21:30:32 CEST 2016
+# author:  Tim Fuehner <tim.fuehner@iisb.fraunhofer.de>
+# $Id$
+#
+
+package:
+    name: foxconda-installer
+    version: "0.1"
+
+source:
+    git_url: sourcegate:/home/data/gitroot/foxbms/foxconda-installer.git
+
+build:
+    number: 1
+    osx_is_app: True
+    entry_points:
+        - fcmakeinstaller = foxconda_installer.mkinstaller:main
+        - fcmakepayload   = foxconda_installer.sdkpayload:main
+        - fcgetrepository = foxconda_installer.getrepository:main
+        - fctestinstaller = foxconda_installer.installer:main
+
+requirements:
+    build:
+        - python
+        - setuptools
+    run:
+        - python
+        - wxpython
+        - pyinstaller
+
+about:
+    home: http://www.foxbms.org
+    license: BSD
+#    license_file: LICENSE
+

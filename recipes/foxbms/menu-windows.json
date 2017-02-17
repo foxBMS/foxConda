@@ -1,0 +1,23 @@
+{
+    "menu_name": "foxBMS",
+    "menu_items":
+        [
+			{
+                "system": "${PYTHON_SCRIPTS}/foxbms.exe",
+                "scriptarguments": [],
+                "name": "foxBMS FrontDesk",
+                "workdir": "${PREFIX}",
+                "icon": "${MENU_DIR}/app.ico",
+                "desktop": true
+            },
+            {
+                "system": "${PYTHON_SCRIPTS}/fbterminal.exe",
+                "scriptarguments": [],
+                "name": "foxBMS Terminal",
+                "workdir": "${PREFIX}",
+                "icon": "${MENU_DIR}/app.ico",
+                "desktop": true
+            }
+        ]
+}
+

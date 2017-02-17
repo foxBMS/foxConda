@@ -1,0 +1,16 @@
+{
+    "menu_name": "foxBMS",
+    "menu_items":
+        [
+            {
+                "cmd": "${BIN_DIR}/foxbms",
+                "name": "foxBMS FrontDesk",
+				"icns": "${MENU_DIR}/app.icns"
+            },
+            {
+                "cmd": "${BIN_DIR}/fbterminal",
+                "name": "foxBMS Terminal",
+				"icns": "${MENU_DIR}/app.icns"
+            }
+        ]
+}
