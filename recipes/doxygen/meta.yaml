@@ -15,9 +15,12 @@ requirements:
     build:
        - cmake
        - bison # [linux]
+       - flex # [linux]
+       - m4 # [linux]
 
 build:
     number: 1
+    number: 2 # [linux]
 
 # Note: tests are run when building the package, they are not accessible
 # in the installed package.
