@@ -21,7 +21,13 @@ license:
   summary: 3-clause BSD
   target: .
 
+data:
+  files: 
+      - install.py
+  target: ./pkgs
+
 name: foxcondainstall
+version: '0.5'
 numberpackage: 37
 
 payload:
@@ -47,7 +53,7 @@ welcome:
         <br /> <br /> <br /> <br /> foxConda is based on <a href="https://anaconda.org">Anaconda</a> by Continuum Analytics.
     text: Welcome to foxConda, the foxBMS Python distribution.
 
-        (c) 2011-2016 Fraunhofer IISB. All rights reserved.
+        (c) 2011-2017 Fraunhofer IISB. All rights reserved.
 
         for more information visit foxbms.org
 
