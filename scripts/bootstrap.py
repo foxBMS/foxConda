@@ -107,6 +107,9 @@ conda install {}
     '''.format(self.directory, self.directory, _packages)
             self.condaExecute(_cmd)
 
+        for p in _channeled:
+            self.installPackage(p)
+
 
     def buildPackages(self, packages):
         if packages[0].lower() == 'none': return
@@ -169,7 +172,6 @@ def main():
         except Exception, e:
             logging.error(e)
             sys.exit(-1)
-    
     bcenv.installPackages(args.install.split(','))
     bcenv.buildPackages(args.build.split(','))
     if args.upload:
