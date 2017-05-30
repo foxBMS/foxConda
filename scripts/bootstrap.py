@@ -15,7 +15,6 @@ import os
 import shutil
 import yaml
 import glob
-from conda import config
 
 #conda list --json --show-channel-urls
 
