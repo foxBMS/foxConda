@@ -17,6 +17,7 @@ buildpackages:
     - m4
     - bison
     - flex
+    - cmake
     - doxygen
     - breathe
     - menuinst
