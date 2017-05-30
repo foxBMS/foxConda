@@ -3,7 +3,7 @@ package:
     version: "0.1"
 
 source:
-    git_url: sourcegate:/home/data/gitroot/foxbms/foxbms-flashtool.git
+    git_url: sourcegate:/home/data/gitroot/foxbms/foxBMS-flashtool.git
 
 build:
     number: 1
