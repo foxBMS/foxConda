@@ -9,24 +9,30 @@ import os
 import subprocess
 import shutil
 import argparse
+import platform
+import urllib
 
 class MakeInstaller(object):
 
     def __init__(self):
+        self.platform = platform.system().lower()
         pass
 
-    def condaExecute(self, command): 
-        logging.info(command) 
-        # TODO windows 
-        p = subprocess.Popen('sh', stdin=subprocess.PIPE, stdout=None, stderr=None, shell=True,) 
-        p.stdin.write(command) 
-        _out, _err = p.communicate() 
+    def condaExecute(self, command):
+        logging.info(command)
+        if self.platform.startswith('win'):
+            p = subprocess.Popen('cmd.exe /k', stdin=subprocess.PIPE, stdout=None, stderr=None, shell=True,)
+        else:
+            p = subprocess.Popen('sh', stdin=subprocess.PIPE, stdout=None, stderr=None, shell=True,)
+        p.stdin.write(command)
+        _out, _err = p.communicate()
 
     def make(self):
-        _cmd ='''\
-fcgetrepository file://{}
+        _cmd =r'''fcgetrepository file:///{}
 fcmakepayload repodata.json
-fcmakeinstaller installer.yaml'''.format(os.path.join(sys.prefix, 'conda-bld'))
+fcmakeinstaller installer.yaml
+'''.format(os.path.join(sys.prefix, 'conda-bld'))
+
         self.condaExecute(_cmd)
 
     def clean(self):
