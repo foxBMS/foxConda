@@ -47,7 +47,7 @@ class BootstrapEnv(object):
 
         tmpd = tempfile.mkdtemp()
         _file = os.path.join(tmpd, self.mc[self.platform])
-        print _file, self.mcURL + self.mc[self.platform]
+        logging.info('getting installer {}'.format(self.mcURL + self.mc[self.platform]))
 
         ctx = ssl.create_default_context()
         ctx.check_hostname = False
@@ -59,10 +59,13 @@ class BootstrapEnv(object):
             f.write(html)
         # doesn't work on Windows
         if self.platform.startswith('win'):
-            _command = [_file, '-b', '-p', self.directory]
+            _command = [_file, '/InstallationType=JustMe', '/RegisterPython=0', '/AddToPath=0', '/S', '/D=' + self.directory]
+
         else:
             _command = ['/bin/sh', _file, '-b', '-p', self.directory]
 
+        logging.info('Executing Installer')
+        logging.debug(" ".join(_command))
         status = subprocess.call(" ".join(_command), shell=True) 
         shutil.rmtree(tmpd)
         logging.info('miniconda deployed in %s' % self.directory)
