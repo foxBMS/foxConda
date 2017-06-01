@@ -9,6 +9,7 @@ import logging
 import platform
 import sys
 import urllib2
+import ssl
 import tempfile
 import subprocess
 import os
@@ -32,7 +33,7 @@ class BootstrapEnv(object):
         self.mc = {
                 'linux': 'Miniconda2-latest-Linux-x86_64.sh',
                 'osx': 'Miniconda2-latest-MacOSX-x86_64.sh',
-                'win': 'Miniconda2-latest-Windows-x86_64.exe',
+                'windows': 'Miniconda2-latest-Windows-x86_64.exe',
                 }
 
 
@@ -46,12 +47,22 @@ class BootstrapEnv(object):
 
         tmpd = tempfile.mkdtemp()
         _file = os.path.join(tmpd, self.mc[self.platform])
-        response = urllib2.urlopen(self.mcURL + self.mc[self.platform])
+        print _file, self.mcURL + self.mc[self.platform]
+
+        ctx = ssl.create_default_context()
+        ctx.check_hostname = False
+        ctx.verify_mode = ssl.CERT_NONE
+
+        response = urllib2.urlopen(self.mcURL + self.mc[self.platform], context=ctx)
         html = response.read()
         with open(_file, 'wb') as f:
             f.write(html)
         # doesn't work on Windows
-        _command = ['/bin/sh', _file, '-b', '-p', self.directory]
+        if self.platform.startswith('win'):
+            _command = [_file, '-b', '-p', self.directory]
+        else:
+            _command = ['/bin/sh', _file, '-b', '-p', self.directory]
+
         status = subprocess.call(" ".join(_command), shell=True) 
         shutil.rmtree(tmpd)
         logging.info('miniconda deployed in %s' % self.directory)
@@ -60,10 +71,15 @@ class BootstrapEnv(object):
     def condaExecute(self, command):
         logging.info(command)
         # TODO windows
-        p = subprocess.Popen('sh', stdin=subprocess.PIPE,
+        _command = 'sh'
+        if self.platform.startswith('win'):
+            _command = 'cmd.exe'
+        p = subprocess.Popen(_command, stdin=subprocess.PIPE,
                 stdout=None, stderr=None, shell=True,)
         p.stdin.write(command)
         _out, _err = p.communicate()
+        if 0 and self.platform.startswith('win'):
+            p.stdin.flush()
 
 
     def installPackage(self, package, fromCondaBld = False):
@@ -75,14 +91,28 @@ class BootstrapEnv(object):
             if package in self.packages['channels']:
                 channel = ' -c ' + self.packages['channels'][package]
             force = ''
-        _cmd = '''
-. {}/bin/activate root
-conda install{}{} {}
+        if self.platform.startswith('win'):
+            _cmd = '''\
+{}\\scripts\\activate root
+conda install -y{}{} {}
 '''.format(self.directory, force, channel, package)
-        self.condaExecute(_cmd)
+            self.condaExecute(_cmd)
+        else:
+            _cmd = '''\
+. {}/bin/activate root
+conda install -y{}{} {}
+'''.format(self.directory, force, channel, package)
+            self.condaExecute(_cmd)
 
     def buildPackage(self, package):
-        self.condaExecute('''
+        if self.platform.startswith('win'):
+            self.condaExecute('''
+set PATH={}\\Scripts:%PATH%
+{}\\scripts\\activate root
+conda build {}
+'''.format(self.directory, self.directory, os.path.join(self.recipesdir, package)))
+        else:
+            self.condaExecute('''
 export PATH={}/bin:$PATH
 . {}/bin/activate root
 conda build {}
@@ -93,15 +123,23 @@ conda build {}
         _pp = self.packages['installpackages']
         if packages[0].lower() != 'all':
             _pp = [x for x in _pp if x in packages]
-        _defaults =[x for x in _pp if not x in self.packages['channels']] 
-        _channeled =[x for x in _pp if x in self.packages['channels']] 
+        _defaults =[x for x in _pp if not x in self.packages['channels']]
+        _channeled =[x for x in _pp if x in self.packages['channels']]
         if len(_defaults) > 0:
             _packages = ' '.join(_defaults)
-            _cmd = '''
+            if self.platform.startswith('win'):
+                _cmd = '''
+set PATH={}\\Scripts:%PATH%
+{}\\scripts\\activate root
+conda info
+conda install {}
+    '''.format(self.directory, self.directory, _packages)
+            else:
+                _cmd = '''
 export PATH={}/bin:$PATH
+. {}/bin/activate root
 which conda
 conda info
-. {}/bin/activate root
 conda install {}
     '''.format(self.directory, self.directory, _packages)
             self.condaExecute(_cmd)
@@ -128,6 +166,7 @@ conda install {}
 
 
     def upload(self):
+        # FIXME Windows
         _cmd = '''
 . {}/bin/activate root
 python {} -f
@@ -162,9 +201,11 @@ def main():
     else:
         logging.basicConfig(level = logging.WARNING)
 
-    bcenv = BootstrapEnv(args.installdir, args.packages, args.recipesdir,
+    _installdir = os.path.abspath(args.installdir)
+
+    bcenv = BootstrapEnv(_installdir, args.packages, args.recipesdir,
             force=args.force)
-    bcenv.readPackageList() 
+    bcenv.readPackageList()
     if not args.reuse:
         try:
             bcenv.installMC()
