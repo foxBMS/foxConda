@@ -32,7 +32,7 @@ class BootstrapEnv(object):
         self.platform = platform.system().lower()
         self.mc = {
                 'linux': 'Miniconda2-latest-Linux-x86_64.sh',
-                'osx': 'Miniconda2-latest-MacOSX-x86_64.sh',
+                'darwin': 'Miniconda2-latest-MacOSX-x86_64.sh',
                 'windows': 'Miniconda2-latest-Windows-x86_64.exe',
                 }
 
