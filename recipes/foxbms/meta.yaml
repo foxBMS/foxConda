@@ -30,6 +30,7 @@ requirements:
         - doxygen
         - breathe
         - sphinx
+        - sphinx_rtd_theme
 
 about:
     home: http://www.foxbms.org
