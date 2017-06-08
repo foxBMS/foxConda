@@ -1,10 +1,10 @@
 package:
     name: flex
-    version: 2.5.39
+    version: 2.6.4
 
 source:
-    fn: flex-2.5.39.tar.bz2 # [linux]
-    url: http://pappel.iisb.fraunhofer.de/foxbms/conda/src/flex-2.5.39.tar.bz2 # [linux]
+    git_url: https://github.com/westes/flex/tags # [linux]
+    git_ref: v2.6.4 # [linux]
 
 
 about:

@@ -1,9 +1,9 @@
 package:
     name: foxbms
-    version: 0.7
+    version: 0.8
 
 source:
-    git_url: sourcegate:/home/data/gitroot/foxbms/foxbms-frontdesk.git
+    git_url: https://github.com/foxBMS/foxBMS-frontdesk
 
 build:
     number: 1
@@ -34,5 +34,5 @@ requirements:
 about:
     home: http://www.foxbms.org
     license: BSD
-    license_file: LICENSE
+    license_file: LICENSE.md
 

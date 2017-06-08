@@ -1,9 +1,9 @@
 package:
     name: foxbmsflashtool
-    version: "0.1"
+    version: 0.3
 
 source:
-    git_url: sourcegate:/home/data/gitroot/foxbms/foxBMS-flashtool.git
+    git_url: https://github.com/foxBMS/foxBMS-flashtool
 
 build:
     number: 1
@@ -25,6 +25,6 @@ requirements:
 about:
     home: http://www.foxbms.org
     license: BSD
-    license_file: LICENSE
+    license_file: LICENSE.md
     summary: foxBMS flash tools, including a command line and a GUI tool
 

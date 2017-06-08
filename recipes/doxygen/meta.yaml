@@ -3,11 +3,11 @@ package:
     version: "1.8.10"
 
 source:
-    fn: doxygen-1.8.10.src.tar.gz # [osx]
-    fn: doxygen-1.8.10.src.tar.gz # [linux]
+    git_ref: Release_1_8_10 # [osx]
+    git_ref: Release_1_8_10 # [linux]
+    git_url: https://github.com/doxygen/doxygen # [osx]
+    git_url: https://github.com/doxygen/doxygen # [linux]
     fn: doxygen-1.8.10.windows.x64.bin.zip   # [win]
-    url: http://pappel.iisb.fraunhofer.de/foxbms/conda/src/doxygen-1.8.10.src.tar.gz # [osx]
-    url: http://pappel.iisb.fraunhofer.de/foxbms/conda/src/doxygen-1.8.10.src.tar.gz # [linux]
     url: http://ftp.stack.nl/pub/users/dimitri/doxygen-1.8.10.windows.x64.bin.zip # [win]
 
 
