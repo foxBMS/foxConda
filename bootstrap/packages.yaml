@@ -7,19 +7,14 @@ installpackages:
     - numpy
     - paramiko
     - pycrypto
-    - cmake
     - git
     - graphviz
     - wxpython
     - pyinstaller
+    - doxygen
 
 buildpackages:
     - bitstring
-    - m4
-    - bison
-    - flex
-    - cmake
-    - doxygen
     - breathe
     - menuinst
     - pyserial
@@ -30,6 +25,7 @@ buildpackages:
 
 channels:
     pyinstaller: conda-forge
+    doxygen: conda-forge
 
 upload:
     repo: ssh://pappel.iisb.fraunhofer.de/foxbms/conda/channel
