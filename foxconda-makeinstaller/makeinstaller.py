@@ -11,12 +11,27 @@ import shutil
 import argparse
 import platform
 import urllib
+import yaml
 
 class MakeInstaller(object):
 
-    def __init__(self):
+    def __init__(self, configfile = 'installer.yaml'):
+        '''
+        :param configfile:  default 'installer.yaml'. Change this if it has
+                            a different name
+        .. note::
+
+           FIXME: make it an option
+
+        '''
         self.platform = platform.system().lower()
-        pass
+        if self.platform == 'darwin':
+            self.platform = 'macos'
+        with open(configfile, 'r') as f:
+            y = yaml.load(f.read())
+        self.name = y['name']
+        self.version = y['version']
+
 
     def condaExecute(self, command):
         logging.info(command)
@@ -34,6 +49,21 @@ fcmakeinstaller installer.yaml
 '''.format(os.path.join(sys.prefix, 'conda-bld'))
 
         self.condaExecute(_cmd)
+
+        # rename installer to reflect version and platform, assign build
+        # number if an installer with the same name is already present
+        _src = os.path.join('dist', self.name)
+        _trg = os.path.join('dist', '-'.join([self.name, self.platform, self.version]))
+        _ext = ''
+        if self.platform.startswith('win'):
+            _ext = '.exe'
+        _t = _trg + _ext
+        i = 0
+        while os.path.exists(_t):
+            i += 1
+            _t = '%s_%.3d%s' % (_trg, i, _ext) 
+        _trg = _t
+        shutil.move(_src, _trg)
 
     def clean(self):
         for f in ['repodata.json', 'payload.tar', '_install.spec']:
