@@ -12,9 +12,9 @@ installpackages:
     - wxpython
     - pyinstaller
     - doxygen
+    - bitstring
 
 buildpackages:
-    - bitstring
     - breathe
     - menuinst
     - pyserial
@@ -26,6 +26,7 @@ buildpackages:
 channels:
     pyinstaller: conda-forge
     doxygen: conda-forge
+    bitstring: bioconda
 
 upload:
     repo: ssh://pappel.iisb.fraunhofer.de/foxbms/conda/channel
