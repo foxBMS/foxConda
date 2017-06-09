@@ -1,92 +1,173 @@
-# foxBMS
+===============================
+Building the foxConda Installer
+===============================
 
-foxBMS is a free, open and flexible development environment for the design of
-battery management systems. It is the first universal BMS development
-environment.
+:author:    The foxBMS Team (Tim Fühner <tim.fuehner@iisb.fraunhofer.de>)
+:version:   0.5
 
-## foxBMS Project Setup
-The foxBMS project consists of several repositories.
+The *foxBMS* project comes with its own Python distribution, called
+*foxConda*. Python is a modern, interpreted programming language whose
+great popularity is still increasing, also owing to the multitude of
+libraries that are available for virtually any application. In combination
+with an easy-to-use distribution, like Anaconda_, Python constitutes an
+ideal development platform. We have therefore decided to also employ it as
+a software development toolkit (SDK) for *foxBMS*.
+For an even improved user experience and maintainability, we are not only
+providing Python programs and packages to get you started with *foxBMS*, we
+have additionally devised a dedicated, comprehensive distribution, which
+includes all the packages you need. It is based on Anaconda and is hence
+fully compatible with it. 
 
-The foxConda-installer repository contains the installer for the foxConda
-environment. This environment provides all the tools necessary to generate the
-documentation, compile the code for the MCUs and flash the generated binaries on
-the MCUs (e.g., Python, git, GCC).
+.. _Anaconda: http://www.anaconda.org
 
-The starting point to get foxBMS is the foxBMS-setup
-repository (https://github.com/foxBMS/foxBMS-setup), which contains
-the general setup files for the foxBMS project. It includes a setup script
-(bootstrap.py) which clones all the other needed repositories. The needed 
-documentation will be generated automatically after these repositories have been
-cloned. The generated documentation is found in the directory ./build. 
-After the bootstrap step, the top project directory (foxBMS-setup) structure 
-looks like this:
 
- - foxBMS-setup <dir>
-  - .git <dir> *
-  - build <dir>
-  - foxBMS-documentation <dir>
-  - foxBMS-hardware <dir>
-  - foxBMS-primary <dir>
-  - foxBMS-secondary <dir>
-  - foxBMS-tools <dir>
-  - FreeRTOS <dir>
-  - hal <dir>
-  - .gitignore <file> *
-  - bootstrap.py <file>
-  - build.py <file>
-  - CHANGELOG.md <file>
-  - clean.py <file>
-  - LICENSE.md <file>
-  - README.md <file>
-  - wscript <file>
+Creating a foxConda distribution and building the installer
+-----------------------------------------------------------
 
-* Directories and files with starting full stop are hidden in Windows in default
-configuration. 
+You can find the configuration files required to build a standard foxConda
+distribution and its installer in the ``foxconda-makeinstaller``
+subdirectory of the ``foxconda`` repository. In addition, the list of
+packages that are to be included in the ”bootstrap” foxConda distribution,
+is specified in the file ``bootstrap/packages.yaml`` in the same
+repository. You will also need the ``scripts/bootstrap.py`` script, and a
+running Python environment (version 2.6 or higher) and ``yaml`` support [#FIXME]. 
+Furthermore, make sure you have a working internet connection since the
+bootstrap process will automatically download all required package and
+source files.
 
-There is a help available by running "python bootstrap.py -h".
+Unless you would like to customize or modify it, no changes are required,
+and you can simply issue the build commands.
 
-## foxBMS Repositories
+Simplified build
+++++++++++++++++
 
-The foxConda-installer and foxBMS-setup repositories have already been described.
+1. If not done so, clone ``foxconda`` and change into the working
+   directory::
 
-foxBMS is made out of two Microcontroller Units (MCU), named primary and
-secondary. The C code for the primary MCU is found in the repository
-foxBMS-primary (https://github.com/foxBMS/foxBMS-primary). The C code for the
-secondary MCU is found in the repository foxBMS-secondary
-(https://github.com/foxBMS/foxBMS-secondary). The Doxygen documentation is
-generated from these sources into ./build/primary/doxygen/html and
-./build/secondary/doxygen/html respectively. The main file is in both cases
-index.html.
+       git clone https://github.com/foxBMS/foxconda
 
-The layout and schematic files for the foxBMS hardware are found in the
-foxBMS-hardware repository (https://github.com/foxBMS/foxBMS-hardware).
+2. Issue::
 
-The Hardware Abstraction Layer (hal) for foxBMS is found in the hal-repository
-(https://github.com/foxBMS/hal.) The real time operating system (FreeRTOS) for
-foxBMS is found in the FreeRTOS-repository (https://github.com/foxBMS/FreeRTOS.)
+       python scripts/bootstrap.py -p bootstrap/packages.yaml <INSTALLDIR>
 
-The tools needed for foxBMS are in the foxBMS-tools-repository
-(https://github.com/foxBMS/foxBMS-tools.)
+   Here, it is aѕsumed that the ``python`` command is in your system path.
+   ``INSTALLDIR`` is the path to the bootstrap *foxConda* installation
+   directory. It will be used to collect the third-party packages and build
+   the *foxBMS* modules. After the *foxConda* installer has been built, it
+   can be safely removed.
 
-The general documentation files for the foxBMS project are found in the
-foxBMS-documentation repository
-(https://github.com/foxBMS/foxBMS-documentation). The sphinx documentation is
-found in foxBMS-documentation/doc/sphinx while the Doxygen documentation
-configuration is found in foxBMS-documentation/doc/doxygen. The Doxygen
-documentation itself is found in the software sources of the primary and
-secondary microcontroller. The general documentation, rendered from the sphinx
-sources is found in ./build/sphinx/foxBMS-documentation/doc/sphinx/html. The
-main file is index.html
+   The file containing the list of packages is specified using the ``-p``
+   option. As shown above, you can simply use the provided list, located in
+   the ``bootstrap`` directory.
 
-A generated version of the Sphinx documentation can be found at
-http://foxbms.readthedocs.io/. It explains the structure of the
-foxBMS hardware, how to install the foxConda environment and how to use foxConda
-to compile and flash the sources.
+   Further options of the ``bootstrap.py`` script are shown when issuing::
 
-## Building the Sources
-For building the software, open a shell and type "python build.py -h". All
-available build options will be displayed. The top build directory is ./build.
+       python scripts/bootstrap.py --help
+   
+3. Afterward, your *foxConda* bootstrap directory is ready. For the next
+   step, use Python from this bootstrap distribution by activating it::
 
-## Cleaning the ./build-Directory
-For cleaning instructions open a shell and type "python clean.py -h". All
-available cleaning options will be displayed.
+       . <INSTALLDIR>/bin/activate root
+
+4. Change into the ``foxconda-makeinstaller`` directory and execute::
+
+        python makeinstall.py all
+
+The *foxConda* installer will be situated in the ``dist`` subdirectory.
+
+
+Step-by-step build
+++++++++++++++++++
+
+1.  Bootstrap the initial *foxConda* installation, as shown in the previous
+    simplified build steps instructions (1.–3.).
+
+2.  Change into the ``foxconda-makeinstaller`` directory.
+
+3.  Fetch the repository file, which represents the package list of the
+    bootstrap installation::
+
+        fcgetrepository file:///<INSTALLDIR>
+
+    The package list will be stored in a file called ``repodata.json``.
+
+4.  Generate the payload of the installer, i.e., an archive containing all
+    packages the *foxConda* distribution is to contain::
+
+        fcmakepayload repodata.json
+
+    The payload will be stored in a file called ``payload.tar``.
+
+5.  Generatea the installer, issuing::
+
+        fcmakeinstaller installer.yaml
+
+    The file ``installer.yaml`` contains the configuration for the
+    installer. The generated installer will be located in the ``dist``
+    subdirectory.
+
+
+Customizing foxConda
+++++++++++++++++++++
+
+To create a custom foxConda distribution and the according installer from
+scratch, you have to provide a number of customization and configuration
+files. 
+
+``bootstrap/packages.yaml``   This file contains the list of packages
+    that are to be installed in the bootstrap environment. It contains two
+    sections: (1) ``installpackages``: These packages will be fetched from
+    Anaconda or other publicly available channels; and (2)
+    ``buildpackages``: These packages will be built, and their recepies are
+    expected to be located in the ``recepies`` subdirectory (or another
+    location to which the ``--recipesdir`` option of
+    ``scripts/bootstrap.py`` points).
+
+    In addition, in the section ``channels``, you can specify custom
+    channels for specific packages.
+
+``recipes``    This directory contains all the recipes for the *foxBMS* or
+    their support packages.
+
+``foxconda/makeinstaller``    This directory contains the configuration
+    files required for the installer generation:
+
+    ``installer.yaml``    This is the configuration file, which specifieѕ
+        the behavior and appearance of the installer. It allows you to set
+        logos, welcome screens, messages, version numbers and programs to
+        be launched after the installation has finished. See the provided
+        example configuration file for further details.
+
+        .. note:
+
+           The names of the following files are specified in the
+           ``installer.yaml`` file and may differ if you have chosen
+           to give them different names.
+
+    ``app.ico``, ``app.icns``, ``app.svg``      These are the installer
+        icons for Windows, MacOS and Linux, respectively.
+
+    ``installer.png``   This is the welcome image of the installer
+
+    ``anaconda.LICENSE``, ``LICENSE``   These are the license files for the
+        Anaconda Python distribution, which we supply since *foxConda* is
+        derived work, and the *foxConda* license. You mileage may vary, but
+        we strongly encourage you to leave the licenses as are and simply
+        add your specific license file if required.
+
+    ``install.py``  This script is required by the *conda* installation
+        process. Unless you are certain about what you are doing, it is
+        best to leave it as it is.
+
+    ``postinstall.py``   This script will be executed after *foxConda* was
+        successfully installed. It can be used to execute post-installation
+        triggers.
+
+    ``windowsexedetails.txt``    This file is used to supply the Windows
+        executuable of the installer with version and credit information.
+
+Overview
+--------
+
+.. image:: doc/overview.svg
+   :width: 1000 px
