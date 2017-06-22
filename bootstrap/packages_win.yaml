@@ -12,9 +12,9 @@ installpackages:
     - graphviz
     - wxpython
     - pyinstaller
+    - bitstring
 
 buildpackages:
-    - bitstring
     - m4
     - bison
     - flex
@@ -30,6 +30,7 @@ buildpackages:
 
 channels:
     pyinstaller: conda-forge
+    bitstring: draikes
 
 upload:
     repo: ssh://pappel.iisb.fraunhofer.de/foxbms/conda/channel
