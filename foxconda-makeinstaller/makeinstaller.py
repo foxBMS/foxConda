@@ -50,6 +50,8 @@ fcmakeinstaller installer.yaml
 
         self.condaExecute(_cmd)
 
+    def rename(self):
+
         # rename installer to reflect version and platform, assign build
         # number if an installer with the same name is already present
         _src = os.path.join('dist', self.name)
@@ -57,6 +59,7 @@ fcmakeinstaller installer.yaml
         _ext = ''
         if self.platform.startswith('win'):
             _ext = '.exe'
+            _src += '.exe'
         _t = _trg + _ext
         i = 0
         while os.path.exists(_t):
@@ -82,7 +85,7 @@ def main():
     parser = argparse.ArgumentParser(description='foxConda installer make script')
     parser.add_argument('--verbosity', '-v', action='count', default=0, help="increase output verbosity")
     parser.add_argument('target', nargs='?', default = 'all', metavar='TARGET',
-            choices=['all', 'clean'], help='target (all|clean)')
+            choices=['all', 'rename', 'clean'], help='target (all|rename|clean)')
 
     args = parser.parse_args()
 
@@ -93,10 +96,17 @@ def main():
     else:
         logging.basicConfig(level = logging.WARNING)
 
+
     if args.target == 'all': 
-        MakeInstaller().make()
-    else:
-        MakeInstaller().clean()
+        mk = MakeInstaller()
+        mk.make()
+        mk.rename()
+    elif args.target == 'rename': 
+        mk = MakeInstaller()
+        mk.rename()
+    elif args.target == 'clean':
+        mk = MakeInstaller()
+        mk.clean()
 
 if __name__ == '__main__':
     main()
