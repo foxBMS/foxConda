@@ -7,20 +7,15 @@ installpackages:
     - numpy
     - paramiko
     - pycrypto
-    - cmake
     - git
     - graphviz
     - wxpython
     - pyinstaller
     - bitstring
-
-buildpackages:
-    - m4
-    - bison
-    - flex
-    - cmake
     - doxygen
     - breathe
+
+buildpackages:
     - menuinst
     - pyserial
     - gcc-arm-none-eabi
@@ -30,6 +25,8 @@ buildpackages:
 
 channels:
     pyinstaller: conda-forge
+    doxygen: conda-forge
+    breathe: conda-forge
     bitstring: draikes
 
 upload:
