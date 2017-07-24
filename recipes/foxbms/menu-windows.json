@@ -2,7 +2,7 @@
     "menu_name": "foxBMS",
     "menu_items":
         [
-			{
+            {
                 "system": "${PYTHON_SCRIPTS}/foxbms.exe",
                 "scriptarguments": [],
                 "name": "foxBMS FrontDesk",

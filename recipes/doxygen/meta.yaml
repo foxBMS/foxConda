@@ -9,6 +9,9 @@ source:
     git_url: https://github.com/doxygen/doxygen # [linux]
     fn: doxygen-1.8.10.windows.x64.bin.zip   # [win]
     url: http://ftp.stack.nl/pub/users/dimitri/doxygen-1.8.10.windows.x64.bin.zip # [win]
+    # why not use github release?; why not use same methode as for linux/osx?
+    # https://github.com/doxygen/doxygen/archive/Release_1_8_13.zip
+    # https://github.com/doxygen/doxygen/archive/Release_1_8_13.tar.gz
 
 
 requirements:

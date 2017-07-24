@@ -4,11 +4,12 @@ package:
 
 source:
   git_url: https://github.com/git/git.git # [osx]
-  git_tag: v2.5.0 # [osx]
-  url: https://www.kernel.org/pub/software/scm/git/git-2.5.0.tar.xz # [linux]
-  fn: git-2.5.0.tar.xz # [linux]
-  fn: PortableGit-2.5.0-64-bit.7z.exe # [win]
-  url: https://github.com/git-for-windows/git/releases/download/v2.5.0.windows.1/PortableGit-2.5.0-64-bit.7z.exe # [win]
+  git_tag: v2.13.3 # [osx]
+  url: https://www.kernel.org/pub/software/scm/git/git-2.9.4.tar.xz # [linux]
+  fn: git-2.9.4.tar.xz # [linux]
+  fn: PortableGit-2.13.3-64-bit.7z.exe # [win]
+  url: https://github.com/git-for-windows/git/releases/download/v2.13.3.windows.1/PortableGit-2.13.3-64-bit.7z.exe # [win]
+  
 
 requirements:
   build:
@@ -22,6 +23,7 @@ test:
   commands:
     - git --version # [osx]
     - git --version # [linux]
+    - git --version # [win]
 
 about:
   home: https://git-scm.com/

@@ -5,15 +5,15 @@
             {
                 "cmd": ["${BIN_DIR}/foxbms"],
                 "name": "foxBMS FrontDesk",
-				"id": "01",
-				"icon": "${MENU_DIR}/app.ico",
+                "id": "01",
+                "icon": "${MENU_DIR}/app.ico",
                 "comment": "foxBMS FrontDesk"
             },
             {
                 "cmd": "${BIN_DIR}/fbterminal",
                 "name": "foxBMS Terminal",
-				"id": "02",
-				"icon": "${MENU_DIR}/app.ico",
+                "id": "02",
+                "icon": "${MENU_DIR}/app.ico",
                 "terminal": true
             }
         ]
