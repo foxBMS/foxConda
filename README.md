@@ -190,5 +190,5 @@ files.
 
 ## Overview
 
-.. image:: https://github.com/foxBMS/foxconda/blob/master/doc/overview.png
-   :width: 1000 px
+foxconda build overview
+![alt text](https://raw.githubusercontent.com/foxBMS/foxconda/master/doc/overview.png "foxconda build overview")
