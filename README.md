@@ -190,5 +190,5 @@ files.
 
 ## Overview
 
-.. image:: doc/overview.svg
+.. image:: https://github.com/foxBMS/foxconda/blob/master/doc/overview.png
    :width: 1000 px
